@@ -4,8 +4,8 @@ Public Class GastoDao
     '''''''''''''''''''''''''''''''
     '' Objetos de Acceso a Datos ''
     '''''''''''''''''''''''''''''''
-    Public conn As SqlConnection = Nothing
-    Public adapter As SqlDataAdapter = Nothing
+   '' Public conn As SqlConnection = Nothing
+    ''Public adapter As SqlDataAdapter = Nothing
     Public dataReader As SqlDataReader = Nothing
     Public dataSet As DataSet = Nothing
     Public dataRow As DataRow = Nothing
