@@ -1,0 +1,381 @@
+﻿<%@ Master Language="VB" CodeFile="MasterServicio.master.vb" Inherits="MasterServicio" %>
+<%@ Register  Src="~/Controles/BusquedaServicio.ascx" TagName ="ControlMVA"  TagPrefix="ControlMVA"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
+    <meta http-equiv="EXPIRES" content="Mon, 22 Jul 2002 11:12:01 GMT" />
+    <title>AsignaCar</title>
+
+    <%-- Israel --%>
+    <script type="text/javascript">
+        function Abrir_winBusquedaVehiculosCambioVeh() {
+            setTimeout("Abrir_Ventana('winBusquedaVehiculosCambioVeh')", delay_abrir_ventana);
+        }
+        function Abrir_winBusquedaProveedoresCambioVeh() {
+            setTimeout("Abrir_Ventana('winBusquedaProveedoresCambioVeh')", delay_abrir_ventana);
+        }
+         </script>
+ <%--  Fin Israel --%>
+
+    <%--Script para controlar la caducidad del password del usuario--%>
+    <script type="text/javascript">
+        function confirmCallBack_CambiarPassword(arg) {
+            // Hace un postback cuando el usuario elije que si quiere cambiar el password
+
+            if (arg) __doPostBack('CambiarPassword', 'true');
+        }
+
+        function ForzarCambioPassword() {
+            location.replace('../ControlAcceso/CambioPassword.aspx');
+
+        }
+    </script>
+
+    <script type="text/javascript">
+        //Script que permite mostrar y ocultar la franja de errores
+        function Ocultar_Franja_Error() {
+            $('div[name="DivError"]').hide();
+        }
+
+        function Mostrar_Franja_Error(msg) {
+            $('div[name="DivError"]').show();
+            $('div[name="DivError"]').html('Error: ' + msg);
+        }
+
+    </script>   
+
+    <%--Script para las ventanas emergentes modales --%>
+    <script type="text/javascript">
+        var delay_abrir_ventana;
+        delay_abrir_ventana = 200;
+
+        function Abrir_winImagenes() {
+            setTimeout("Abrir_Ventana('winImagenes')", delay_abrir_ventana);
+        }
+        function Abrir_winMotivoBajaPoliza() {
+            setTimeout("Abrir_Ventana('winMotivoBajaPoliza')", delay_abrir_ventana);
+        }
+        function Abrir_winMotivoBajaVehiculo() {
+            setTimeout("Abrir_Ventana('winMotivoBajaVehiculo')", delay_abrir_ventana);
+        }
+        function Abrir_winPolizasIncisosEdicion() {
+            setTimeout("Abrir_Ventana('winPolizasIncisosEdicion')", delay_abrir_ventana);
+        }
+        function Abrir_winMotivoBajaServicio() {
+            setTimeout("Abrir_Ventana('winMotivoBajaServicio')", delay_abrir_ventana);
+        }
+        function Abrir_winServiciosPolizaNDias() {
+            setTimeout("Abrir_Ventana('winServiciosPolizaNDias')", delay_abrir_ventana);
+        }
+        function Abrir_winMotivoBajaSiniestro() {
+            setTimeout("Abrir_Ventana('winMotivoBajaSiniestro')", delay_abrir_ventana);
+        }
+        function Abrir_winMotivoCierreSiniestro() {
+            setTimeout("Abrir_Ventana('winMotivoCierreSiniestro')", delay_abrir_ventana);
+        }
+        function Abrir_winBusquedaVehiculosContrato() {
+            setTimeout("Abrir_Ventana('winBusquedaVehiculosContrato')", delay_abrir_ventana);
+        }
+        function Abrir_winBusquedaProveedoresContrato() {
+            setTimeout("Abrir_Ventana('winBusquedaProveedoresContrato')", delay_abrir_ventana);
+        }
+        function Abrir_winBusquedaProveedoresMantenimiento() {
+            setTimeout("Abrir_Ventana('winBusquedaProveedoresMantenimiento')", delay_abrir_ventana);
+        }
+        function Abrir_winCargarListaPreciosProveedores() {
+            setTimeout("Abrir_Ventana('winCargarListaPreciosProveedores')", delay_abrir_ventana);
+        }
+        function Abrir_winHistorialCambiosUnidad() {
+            setTimeout("Abrir_Ventana('winHistorialCambiosUnidad')", delay_abrir_ventana);
+        }
+
+        ///////////////////////////////////////////////////////////
+
+        function Abrir_Ventana(ventana) {
+            window.radopen(null, ventana);
+        }
+
+    </script>
+
+    <%--Acciones Iniciales--%>
+    <script type="text/javascript">
+        function BodyOnLoad() {
+
+            // Prepara el objeto de invocación de ajax
+            xmlHttp = GetXmlHttpObject();
+            if (!xmlHttp || xmlHttp == null) {
+                return;
+            }
+
+            // Cada 30 segundos avisará que el usuario está usando el sistema aún
+            window.setInterval("MantenerOnLine();", 45000); // 45 segundos
+
+            try {
+                AccionInicial();
+            }
+            catch (err) {
+            }
+
+        }
+        
+    </script>
+
+
+    <%--Script para mantener al usuario Online--%>
+    <script type="text/javascript">
+        var xmlHttp;
+
+        function MantenerOnLine() {
+            xmlHttp.onreadystatechange = stateChanged;
+            xmlHttp.open("POST", "../Online.aspx", true);
+            xmlHttp.send(null);
+        }
+
+        function stateChanged() {
+            // no hace nada
+            var OK = 200;
+
+            if ((xmlHttp.readyState == 4 || xmlHttp.readyState == "complete") && xmlHttp.status == OK) {
+                var x = xmlHttp.responseText;
+            }
+        }
+
+        function GetXmlHttpObject(handler) {
+            var objXMLHttp = null;
+
+            if (window.XMLHttpRequest) {
+                try {
+                    objXMLHttp = new XMLHttpRequest();
+                }
+                catch (e) {
+                    // Catch handler here
+                }
+            }
+            else if (window.ActiveXObject) {
+                try {
+                    objXMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                catch (e) {
+                    // Catch handler here
+                }
+            }
+
+            return objXMLHttp;
+        }
+
+    </script>
+
+    <%--Espacio donde las páginas pueden colocar su contenido--%>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+</head>
+<body onload="BodyOnLoad();">
+    <form id="form1" runat="server">
+        <%--Controles iniciales de telerik --%>
+	    <telerik:RadScriptManager ID="RadScriptManager" runat="server">
+		    <Scripts>
+			    <asp:ScriptReference Assembly="Telerik.Web.UI" Name="Telerik.Web.UI.Common.Core.js" />
+			    <asp:ScriptReference Assembly="Telerik.Web.UI" Name="Telerik.Web.UI.Common.jQuery.js" />
+			    <asp:ScriptReference Assembly="Telerik.Web.UI" Name="Telerik.Web.UI.Common.jQueryInclude.js" />
+		    </Scripts>
+	    </telerik:RadScriptManager>
+
+        <telerik:RadAjaxManager ID="RadAjaxManager" runat="server">
+            <AjaxSettings>
+                <telerik:AjaxSetting AjaxControlID="RadAjaxPanel">
+                    <UpdatedControls>
+                        <telerik:AjaxUpdatedControl ControlID="RadAjaxPanel" LoadingPanelID="RadAjaxLoadingPanel" UpdatePanelHeight="100%" />
+                    </UpdatedControls>
+                </telerik:AjaxSetting>
+            </AjaxSettings>
+        </telerik:RadAjaxManager>
+
+        <%--Ventanas modales --%>
+        <telerik:RadWindowManager ID="RadWindowManager" runat="server">
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winImagenes" NavigateUrl="~/General/Imagenes.aspx" ReloadOnShow="true" Modal="true" Width="800px" Height="500px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winMotivoBajaPoliza" NavigateUrl="~/ControlVehicular/Polizas_MotivoBaja.aspx" ReloadOnShow="true" Modal="true" Width="400px" Height="200px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winMotivoBajaVehiculo" NavigateUrl="~/ControlVehicular/Vehiculos_MotivoBaja.aspx" ReloadOnShow="true" Modal="true" Width="400px" Height="200px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winPolizasIncisosEdicion" NavigateUrl="~/ControlVehicular/Polizas_Incisos_Edicion.aspx" ReloadOnShow="true" Modal="true" Width="500px" Height="400px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winMotivoBajaServicio" NavigateUrl="~/Checkin/Servicios_MotivoBaja.aspx" ReloadOnShow="true" Modal="true" Width="400px" Height="200px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winServiciosPolizaNDias" NavigateUrl="~/Checkin/Servicios_X_Poliza_N_Dias.aspx" ReloadOnShow="true" Modal="true" Width="600px" Height="500px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winMotivoBajaSiniestro" NavigateUrl="~/ControlVehicular/Siniestros_MotivoBaja.aspx" ReloadOnShow="true" Modal="true" Width="400px" Height="200px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winMotivoCierreSiniestro" NavigateUrl="~/ControlVehicular/Siniestros_MotivoCierre.aspx" ReloadOnShow="true" Modal="true" Width="400px" Height="200px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winBusquedaVehiculosContrato" NavigateUrl="~/CheckIn/Vehiculos_Busqueda_Contrato.aspx" ReloadOnShow="true" Modal="true" Width="1000px" Height="400px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winBusquedaProveedoresContrato" NavigateUrl="~/CheckIn/Proveedores_Busqueda_Contrato.aspx" ReloadOnShow="true" Modal="true" Width="1000px" Height="400px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winBusquedaProveedoresMantenimiento" NavigateUrl="~/ControlVehicular/Proveedores_Busqueda_Mantenimiento.aspx" ReloadOnShow="true" Modal="true" Width="1000px" Height="400px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winCargarListaPreciosProveedores" NavigateUrl="~/Catalogos/Proveedores_Precios_Carga.aspx" ReloadOnShow="true" Modal="true" Width="500px" Height="300px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winHistorialCambiosUnidad" NavigateUrl="~/CheckIn/Historial_Cambios_Unidad.aspx" ReloadOnShow="true" Modal="true" Width="1000px" Height="400px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+             <%--Ventanas modalesIsrael --%>
+              <Windows>
+              <telerik:RadWindow runat="server" ID="winBusquedaVehiculosCambioVeh" NavigateUrl="~/CheckIn/Vehiculos_Busqueda_Cambio_Vehi.aspx" ReloadOnShow="true" Modal="true" Width="1000px" Height="400px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+            <Windows>
+                <telerik:RadWindow runat="server" ID="winBusquedaProveedoresCambioVeh" NavigateUrl="~/CheckIn/Proveedores_Busqueda_Cambio_Vehi.aspx" ReloadOnShow="true" Modal="true" Width="1000px" Height="400px" VisibleTitlebar="False" VisibleStatusbar="False" ShowContentDuringLoad="False">
+                </telerik:RadWindow>
+            </Windows>
+        </telerik:RadWindowManager>
+        <%-- //////////// Terminan los controles iniciales de telerik //////////// --%>
+        <%--Encabezado de la pagina--%>
+        <header>
+        <div runat="server">
+        <table width="100%" cellpadding="0" cellspacing="0" rules="none">
+              <tr>
+                 <td style ="width:100%; background-image: url('../img/barra_encabezado.jpg'); background-repeat: repeat;">
+                        <telerik:RadBinaryImage ID="RadBinaryImage1" runat="server" 
+                        ImageUrl="~/img/logo.jpg" ResizeMode="None" AutoAdjustImageControlSize="true" Visible="false" />
+                 </td>
+              </tr>
+              <tr>
+                 <td align="right" style="width:100%">
+                         <asp:Label ID="Label1" runat="server" Text="Bienvenido " Font-Names="Arial Rounded MT Bold" Font-Size="14" ForeColor="DarkGray"></asp:Label>
+                         &nbsp;&nbsp;&nbsp;
+                         <asp:Label ID="lblNombreUsuario" runat="server" Font-Names="Arial Rounded MT Bold" Font-Size="17"  ForeColor="DarkGray"></asp:Label>
+                         &nbsp;&nbsp;&nbsp;
+                         <asp:Label ID="lblPuesto" runat="server" Font-Names="Arial Rounded MT Bold" Font-Size="14" ForeColor="DarkGray"></asp:Label>
+                         &nbsp;&nbsp;&nbsp;                 
+                         <asp:ImageButton ID="btnSalir" runat="server" ImageUrl="~/img/Salir.png"></asp:ImageButton>
+                         &nbsp;
+                  </td>
+              </tr>
+              <tr>
+                 <td style ="width:100%">
+                   <ControlMVA:ControlMVA ID="ControlMVA1" runat="server" />
+                 </td>
+              </tr>
+     </table>
+     </div>
+     </header>
+
+        <%-- //////////// Cuerpo de la página //////////// --%>
+        <div runat="server">
+        <table width="100%" cellpadding="0" cellspacing="0" rules="none">
+            <tr>
+                <td style="width:10%" valign="top">
+                    <asp:Image ID="Logo" runat="server" ImageUrl="~/img/logo.png" />
+                </td>
+                <td style="width:90%" valign="top" align="center">
+                    <%--Area de trabajo--%>
+                    <telerik:RadAjaxPanel ID="RadAjaxPanel2" runat="server" LoadingPanelID="RadAjaxLoadingPanel1"  EnableAJAX="True" HorizontalAlign="Center">
+                        <div runat="server" ID="divMenuMasterHorizontal">
+                            <table>
+                                <tr>
+                                    <td align="center">
+                                        <telerik:RadMenu ID="RadMenuMasterServicio" runat="server" Flow="Horizontal" Visible="true" OnItemClick="RadMenuMasterServicio_ItemClick" CausesValidation="false" CssClass="Titulo"></telerik:RadMenu>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </telerik:RadAjaxPanel>                    
+                </td>
+            </tr>
+        </table>
+        </div>
+        <div runat="server">
+        <table width="100%" cellpadding="0" cellspacing="0" rules="none">
+            <tr>
+                <td style="width:10%" valign="top">
+                    <br />
+                      <telerik:RadMenu ID="RadMenuServicios" runat="server" Flow="Vertical"  Font-Size="15" Visible="true" OnItemClick="RadMenuServicios_ItemClick">
+                      </telerik:RadMenu>
+                      <telerik:RadTreeView ID="MenuIzq" runat="server" CausesValidation="false" 
+                        Visible="false" Skin="Forest">
+                      </telerik:RadTreeView>
+                </td>
+                <td style="width:90%" valign="top" align="center">
+                    <%--Area de trabajo--%>
+                    <div runat="server">
+                    <table style="width:100%">                        
+                        <tr>
+                            <td align="center" style="width:100%">
+                                <div runat="server">
+                                <telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server" LoadingPanelID="RadAjaxLoadingPanel"  EnableAJAX="True" HorizontalAlign="Center" >                        
+                                <%--Datos del elemento seleccionado (Ej: Mva, póliza, etc.)--%>
+                                <div runat="server" ID="div1" >
+                                     <table>
+                                        <tr>
+                                            <td align="center" style="width:100%">
+                                                <%--<hr style="width:75%; height:1px; color:Green; background-color:Green; border-bottom-color:Green; border-left-color:Green; border-right-color:Green; border-color:Green; border-top-color 
+                                                :Green; top:inherit;"/> --%>
+                                                <div runat="server">
+                                                <asp:Label ID="lblTitulo" runat="server" CssClass="Titulo" Font-Bold="true" 
+                                                    Text="">
+                                                </asp:Label>
+                                                </div>
+                                                <div runat="server">
+                                                <hr class="Titulo"  style="width:50%; height:1px; background-color:Lime;"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    </div>                             
+                    </telerik:RadAjaxPanel>
+                    </div>
+                    </td>
+                    </tr>
+                    <tr>
+                       <td style="width:100%" align="center">
+                          <div runat="server">
+                              <asp:ContentPlaceHolder id="phAreaTrabajo" runat="server">
+                                  <div runat="server"></div>
+                              </asp:ContentPlaceHolder>   
+                          </div>
+                       </td>
+                    </tr>
+                    </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        </div>        
+        <%-- /////////////// Pié de página /////////////////////////////////// --%>
+        <telerik:RadNotification ID="notificacion0" runat="server">
+        </telerik:RadNotification>
+
+        <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel" Runat="server" MinDisplayTime="20" Skin="Default" Transparency="10" height="200px" width="200px">
+        </telerik:RadAjaxLoadingPanel>
+    </form>
+</body>
+</html>

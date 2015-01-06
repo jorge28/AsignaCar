@@ -1,0 +1,185 @@
+﻿body {
+}
+
+#DivError
+{
+    background-color: Red;
+    font-family : Times New Roman;
+    font-size: 14px;
+    color: White;
+}
+    
+.Titulo
+{
+    color:#FFA500;    
+    font-size:35px;        
+    font-family:Arial Rounded MT Bold;               
+}
+
+.Subtitulo
+{
+    color:#45697B;
+    font-size:17px;
+    font-family:Arial Rounded MT Bold;
+}
+
+.TextBox
+{
+    /*top: -4px;*/
+    left: 0px;
+    margin-bottom: 0px;
+}
+
+.Fecha
+{
+    
+}
+
+.TextBoxPequeño
+{
+    width: 50%;
+}
+
+.TextBoxMediano
+{
+    width: 75%;
+}
+
+.Label
+{
+    color:Black;
+    font-size:14px;
+    font-family:Arial Rounded MT Bold;
+}
+.LabelNegrita
+{
+    color:Black;
+    font-size:14px;
+    font-family:Arial Rounded MT Bold;
+    font-weight:bold;
+}
+
+.LabelPrincipal
+{
+    color:White;
+    font-size:14px;
+    font-family:Arial Rounded MT Bold;
+}
+.LabelNegritaPrincipal
+{
+    color:White;
+    font-size:14px;
+    font-family:Arial Rounded MT Bold;
+    font-weight:bold;
+}
+.LabelError
+{
+    color:Red;
+    font-size:16px;
+    font-family:Arial Rounded MT Bold;
+}
+
+.Button
+{
+    font-size:10px;
+    text-align: center;   
+     
+}
+
+.ListBox 
+{
+    font-size:10px;
+    height:150px;
+}
+
+
+.ValidacionError
+{
+    color:Red;
+}
+
+.ComboBox
+{
+    font-size:10px;
+    width:100%;
+    margin-top: 45;
+}
+.ComboBoxPequeño
+{
+    font-size:10px;
+    width:50%;    
+}
+
+.RadioButton
+{
+    color:Black;
+    font-size:10px;
+    font-family:Arial Rounded MT Bold;
+}
+.CheckBox
+{
+    color:Black;
+    font-size:10px;
+    font-family:Arial Rounded MT Bold;
+}
+.LinkButton
+{
+    color:Navy;
+    font-size:10px;
+    font-family:Calibri;
+}
+
+
+.TablaBotones
+{
+    width: 80%;
+}
+
+.TdBotones
+{
+    text-align: left;
+}
+
+.TablaCampos
+{
+    /*width: 89%; */
+    width: 90%; 
+}
+.TablaCamposCatalogos
+{
+    width: 40%;
+}
+
+.TdLabel
+{
+    width: 10px;
+}
+
+.TdLabel2
+{
+    width: 20%;
+}
+.TdDatos
+{
+    width: 20px;
+    text-align: left;
+    /*margin-left: 80px;*/
+}
+.TdDatosCatalogos
+{
+    width: 50%;
+}
+
+.PanelGrid
+{
+    width: 50%;
+}
+
+.Grid
+{
+    
+    font-size:10px;
+    font-family:Arial Rounded MT Bold;
+}
+
+
